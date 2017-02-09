@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node webPage.js"
+    "start": "node webPage.js",
+    "update": "npm-check-updates -u"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,7 @@
     "https": "^1.0.0",
     "jsonfile": "^2.3.1",
     "multer": "^1.2.0",
-    "shario_rest_api": "^0.0.2",
+    "shario_rest_api": "^0.0.4",
     "uniq": "^1.0.1"
   }
 }
