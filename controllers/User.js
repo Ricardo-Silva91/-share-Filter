@@ -24,6 +24,10 @@ module.exports.threadsGET = function threadsGET (req, res, next) {
   User.threadsGET(req.swagger.params, res, next);
 };
 
+module.exports.threadsBriefGET = function threadsBriefGET (req, res, next) {
+    User.threadsBriefGET(req.swagger.params, res, next);
+};
+
 module.exports.filteredThreadByUserGET = function filteredThreadByUserGET (req, res, next) {
     User.filteredThreadByUserGET(req.swagger.params, res, next);
 };

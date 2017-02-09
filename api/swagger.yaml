@@ -52,6 +52,29 @@ paths:
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "User"
+  /getThreadsBrief:
+    get:
+      tags:
+      - "user"
+      summary: "get All Threads - brief"
+      description: "get every thread id and brief details in the server\n"
+      operationId: "threadsBriefGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the threads"
+          schema:
+            $ref: "#/definitions/threads"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
   /getThread:
     get:
       tags:

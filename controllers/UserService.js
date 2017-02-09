@@ -216,6 +216,64 @@ exports.threadsGET = function (args, res, next) {
     }
 }
 
+exports.threadsBriefGET = function (args, res, next) {
+    /**
+     * get All Threads
+     * get every thread in the server
+     *
+     * token String The user's token
+     * returns threads
+     **/
+    var examples = {};
+    examples['application/json'] = "";
+    if (Object.keys(examples).length > 0) {
+
+        var userToken = args.token.value;
+
+        var filesPath = [paths.users_path, paths.threads_path];
+
+        //console.log(paths.users_path);
+
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            var threads = JSON.parse(results[1]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1) {
+                //examples.userPos = userPos;
+                examples = general_operations.briefThreads(threads);
+                examples.result = "success";
+
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(examples, null, 2));
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found",
+                    fields: "token"
+                }));
+            }
+
+
+        });
+
+    } else {
+        res.end();
+    }
+}
+
 exports.filteredThreadByUserGET = function (args, res, next) {
     /**
      * get All Threads
