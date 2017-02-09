@@ -1,0 +1,29 @@
+'use strict';
+
+var url = require('url');
+
+var User = require('./UserService');
+
+module.exports.addKeywordPOST = function addKeywordPOST (req, res, next) {
+  User.addKeywordPOST(req.swagger.params, res, next);
+};
+
+module.exports.loginPOST = function loginPOST (req, res, next) {
+  User.loginPOST(req.swagger.params, res, next);
+};
+
+module.exports.threadGET = function threadGET (req, res, next) {
+  User.threadGET(req.swagger.params, res, next);
+};
+
+module.exports.threadsDateGET = function threadsDateGET (req, res, next) {
+  User.threadsDateGET(req.swagger.params, res, next);
+};
+
+module.exports.threadsGET = function threadsGET (req, res, next) {
+  User.threadsGET(req.swagger.params, res, next);
+};
+
+module.exports.filteredThreadByUserGET = function filteredThreadByUserGET (req, res, next) {
+    User.filteredThreadByUserGET(req.swagger.params, res, next);
+};

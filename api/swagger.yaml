@@ -1,0 +1,263 @@
+---
+swagger: "2.0"
+info:
+  description: "API for share-thread-filter REST Server"
+  version: "0.0.0"
+  title: "Shario REST API"
+host: "localhost"
+basePath: "/"
+schemes:
+- "http"
+produces:
+- "application/json"
+paths:
+  /:
+    get:
+      tags:
+      - "public"
+      summary: "nothing"
+      description: "just to see if server is awake.\n"
+      operationId: "rootGET"
+      parameters: []
+      responses:
+        200:
+          description: "good evening... string"
+          schema:
+            type: "string"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Public"
+  /getThreads:
+    get:
+      tags:
+      - "user"
+      summary: "get All Threads"
+      description: "get every thread in the server\n"
+      operationId: "threadsGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the threads"
+          schema:
+            $ref: "#/definitions/threads"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+  /getThread:
+    get:
+      tags:
+      - "user"
+      summary: "get Thread by id"
+      description: "get one thread from the server, by id.\n"
+      operationId: "threadGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      - name: "threadId"
+        in: "query"
+        description: "The thread's id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the thread"
+          schema:
+            $ref: "#/definitions/thread"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+  /getFilteredThreadByUser:
+    get:
+      tags:
+      - "user"
+      summary: "get Thread by id, filtered using user keywords"
+      description: "get one thread from the server, by id, filtered using user keywords.\n"
+      operationId: "filteredThreadByUserGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      - name: "threadId"
+        in: "query"
+        description: "The thread's id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the thread"
+          schema:
+            $ref: "#/definitions/thread"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+  /getThreadsAfter:
+    get:
+      tags:
+      - "user"
+      summary: "get Threads after a date"
+      description: "get threads from the server, starting from given date.\n"
+      operationId: "threadsDateGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      - name: "date"
+        in: "query"
+        description: "The date"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the threads"
+          schema:
+            $ref: "#/definitions/threads"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+  /addKeyword:
+    post:
+      tags:
+      - "user"
+      summary: "new keyword"
+      description: "Adds a new keyword to the key list."
+      operationId: "addKeywordPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "request."
+        required: false
+        schema:
+          $ref: "#/definitions/addKeyword_req"
+      responses:
+        200:
+          description: "result"
+          schema:
+            $ref: "#/definitions/Ok_res"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+  /login:
+    post:
+      tags:
+      - "user"
+      summary: "login"
+      description: "user sends credentials and gets token."
+      operationId: "loginPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "request."
+        required: false
+        schema:
+          $ref: "#/definitions/login_info"
+      responses:
+        200:
+          description: "result"
+          schema:
+            $ref: "#/definitions/login_res"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+definitions:
+  Ok_res:
+    type: "object"
+    properties:
+      result:
+        type: "string"
+  addKeyword_req:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      keyword:
+        type: "string"
+  post:
+    type: "object"
+    properties:
+      no:
+        type: "integer"
+        format: "int32"
+      com:
+        type: "string"
+      filename:
+        type: "string"
+      ext:
+        type: "string"
+      pub_date:
+        type: "string"
+      keyWords:
+        type: "array"
+        items:
+          type: "string"
+  thread:
+    type: "object"
+    properties:
+      no:
+        type: "integer"
+        format: "int32"
+      com:
+        type: "string"
+      filename:
+        type: "string"
+      ext:
+        type: "string"
+      pub_date:
+        type: "string"
+      posts:
+        type: "array"
+        items:
+          $ref: "#/definitions/post"
+  threads:
+    type: "array"
+    items:
+      $ref: "#/definitions/thread"
+  login_info:
+    type: "object"
+    properties:
+      user:
+        type: "string"
+      pass:
+        type: "string"
+  login_res:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      result:
+        type: "string"
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+      fields:
+        type: "string"
