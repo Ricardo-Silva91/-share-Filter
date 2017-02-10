@@ -1911,88 +1911,104 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 },{}],5:[function(require,module,exports){
-/**
- * Created by Ricardo on 10/02/2017.
- */
-/**
- * Created by Ricardo on 09/02/2017.
- */
-
 var SharioRestApi = require('shario_rest_api');
 
 var apiInstance = new SharioRestApi.UserApi();
 
+var token = getCookie('threadioManyCooks'); // String | The user's token
 
-var callback1st = function (error, data, response) {
+
+var callback = function (error, data, response) {
     if (error) {
         console.error(error);
     } else {
-        if(data.length != 0)
-        {
-            console.log("valid token");
-            window.location.href = "index.html";
+        //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+        var result = data.result;
+        if (result == 'fail' || data.length == 0) {
+            window.location.href = "login.html";
         }
-        else
-        {
-            console.log("bad token");
+        else {
+            var theElement;
+            data = response.body;
+            for (var i = 0; i < data.length; i++) {
+                theElement = '<div align="middle" class="item text-center ' + (i==0 ? 'active':'') +'">' +
+                    '<h3>' +
+                    data[i]['sub'] +
+                    '</h3>' +
+                    '<a title="' + data[i].no + '" class="threadPic"><img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
+                    '</a>' +
+                    '</div>';
+
+                $('.carousel-inner').append(theElement);
+
+            }
+            $(".threadPic").click(function () {
+                console.log(this.title);
+                filterThreadAndShow(this.title);
+
+
+            });
         }
     }
 };
+apiInstance.threadsBriefGET(token, callback);
 
-$("form").on('submit', function (e) {
-    //ajax call here
-    //stop form submission
-    e.preventDefault();
+function urlify(text) {
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+        return '<p><a target="_blank" href="' + url + '">' + url + '</a></p>';
+    })
+    // or alternatively
+    // return text.replace(urlRegex, '<a href="$1">$1</a>')
+}
+function strip(html)
+{
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+}
 
-    var alias = $('#inputAlias')[0].value;
-    var pass = $('#inputPassword')[0].value;
 
-    var logInf = {
-        user: alias,
-        pass: pass
-    }
+function filterThreadAndShow(id) {
 
-    var opts = {
-        'body': //new SharioRestApi.LoginInfo(logInf) // LoginInfo | request.
-            {
-                user: alias,
-                pass: pass
-            }
-    };
+    $('.posts').html("");
 
-    console.log(JSON.stringify(opts.body));
+    var token = getCookie("threadioManyCooks"); // String | The user's token
+
+    var threadId = id; // String | The thread's id
+
+    //console.log("token: " + token + "\nid: " + threadId);
 
     var callback = function (error, data, response) {
         if (error) {
             console.error(error);
         } else {
-            //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-            var result = data.result;
-            if(result != 'fail')
-            {
-                document.cookie="threadioManyCooks = " + data.token + ";path=/;";
-                window.location.href = "index.html";
+            //console.log('API called successfully. Returned data: ' + JSON.stringify(response.body[0]));
+
+            data = response.body;
+
+            var theElement;
+
+            for (var i = 0; i < data.length; i++) {
+                theElement = '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
+                    '<div class="" style="word-wrap: break-word">' +
+                    //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
+                    '<p>' +
+                    urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
+                    '</p>' +
+                    '</div>' +
+                    '</div>';
+
+                console.log(urlify(strip(data[i].com)));
+                $('.posts').append(theElement);
             }
-            else
-            {
-                alert("bad user or pass");
-            }
+            document.getElementById("services").style.display = 'block';
+            window.location.href = '#services';
+
         }
     };
-    apiInstance.loginPOST(opts, callback);
-
-});
-
-$(document).ready(function () {
-
-    console.log("doc ready");
-
-    var cookness = getCookie('threadioManyCooks');
-    if (cookness != "") {
-        apiInstance.threadsBriefGET(cookness, callback1st);
-    }
-
-});
+    apiInstance.filteredThreadByUserGET(token, threadId, callback);
+}
 },{"shario_rest_api":12}],6:[function(require,module,exports){
 /**
  * Module dependencies.

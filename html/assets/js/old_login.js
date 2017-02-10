@@ -76,7 +76,7 @@ $(document).ready(function () {
 
     var cookness = getCookie('threadioManyCooks');
     if (cookness != "") {
-        apiInstance.threadsGET(cookness, callback1st);
+        apiInstance.threadsBriefGET(cookness, callback1st);
     }
 
 });
