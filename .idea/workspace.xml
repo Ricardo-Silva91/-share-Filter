@@ -35,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/controllers/UserService.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1088">
-              <caret line="262" column="28" lean-forward="true" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
+              <caret line="262" column="28" lean-forward="false" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
               <folding>
                 <element signature="e#261#737#0" expanded="false" />
                 <element signature="e#786#3134#0" expanded="false" />
@@ -48,11 +48,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="users.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/users.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+            <state relative-caret-position="425">
+              <caret line="25" column="1" lean-forward="true" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="21" lean-forward="false" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -105,13 +115,13 @@
         <option value="$PROJECT_DIR$/data/local_variables.json" />
         <option value="$PROJECT_DIR$/controllers/paths.js" />
         <option value="$PROJECT_DIR$/paths.js" />
-        <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/controllers/cronner.js" />
         <option value="$PROJECT_DIR$/api/swagger.yaml" />
         <option value="$PROJECT_DIR$/controllers/User.js" />
         <option value="$PROJECT_DIR$/controllers/general_operations.js" />
         <option value="$PROJECT_DIR$/controllers/UserService.js" />
         <option value="$PROJECT_DIR$/data/users.json" />
+        <option value="$PROJECT_DIR$/index.js" />
       </list>
     </option>
   </component>
@@ -122,6 +132,9 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
@@ -143,6 +156,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -199,8 +214,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -327,21 +340,22 @@
       <workItem from="1486654758980" duration="19000" />
       <workItem from="1486664041909" duration="10778000" />
       <workItem from="1486677637815" duration="2000" />
+      <workItem from="1486696629112" duration="67000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15618000" />
+    <option name="totallyTimeSpent" value="15685000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="974" height="1084" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.47739223" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.4731861" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5226078" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.52681386" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -369,6 +383,58 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/api/swagger.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="60" column="35" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/UserService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="262" column="28" lean-forward="true" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
+          <folding>
+            <element signature="e#261#737#0" expanded="false" />
+            <element signature="e#786#3134#0" expanded="false" />
+            <element signature="e#3183#4005#0" expanded="false" />
+            <element signature="e#4059#4555#0" expanded="false" />
+            <element signature="e#4605#6095#0" expanded="false" />
+            <element signature="e#7736#9474#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/users.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/general_operations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="160" column="28" lean-forward="false" selection-start-line="160" selection-start-column="28" selection-end-line="160" selection-end-column="28" />
+          <folding>
+            <element signature="e#134#603#0" expanded="false" />
+            <element signature="e#681#1003#0" expanded="false" />
+            <element signature="e#1062#1528#0" expanded="false" />
+            <element signature="e#1592#1846#0" expanded="false" />
+            <element signature="e#1893#2726#0" expanded="false" />
+            <element signature="e#2095#2167#0" expanded="false" />
+            <element signature="e#2784#3678#0" expanded="false" />
+            <element signature="n#!!block;n#searchTextForWords#0" expanded="false" />
+            <element signature="n#!!block;n#filterForShareThreads#0" expanded="false" />
+            <element signature="n#!!block;n#searchForIdInRecentThreads#0" expanded="false" />
+            <element signature="n#!!block;n#getThreadPosts#0" expanded="false" />
+            <element signature="e#5583#5655#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/swagger.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
@@ -553,13 +619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/cronner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -620,7 +679,7 @@
     <entry file="file://$PROJECT_DIR$/controllers/UserService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1088">
-          <caret line="262" column="28" lean-forward="true" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
+          <caret line="262" column="28" lean-forward="false" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
           <folding>
             <element signature="e#261#737#0" expanded="false" />
             <element signature="e#786#3134#0" expanded="false" />
@@ -634,8 +693,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/users.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        <state relative-caret-position="425">
+          <caret line="25" column="1" lean-forward="true" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="21" lean-forward="false" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
           <folding />
         </state>
       </provider>
