@@ -4,7 +4,7 @@ info:
   description: "API for share-thread-filter REST Server"
   version: "0.0.0"
   title: "Shario REST API"
-host: "localhost"
+host: "localhost:5001"
 basePath: "/"
 schemes:
 - "http"

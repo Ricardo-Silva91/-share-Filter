@@ -30,7 +30,7 @@ function startRefresh() {
 
             general_operations.updateThreads(threads, newThreads, function (updatedThreads) {
 
-                console.log("threads:\n" + updatedThreads);
+                //console.log("threads:\n" + updatedThreads);
 
                 fs.writeFile(paths.threads_path, JSON.stringify(updatedThreads), function (err) {
                     console.error(err)

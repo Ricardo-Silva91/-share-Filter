@@ -67,11 +67,14 @@ exports.filterThreadByKeywords = function (thread, keywords) {
     var filteredThread = [];
 
     for (var i = 0; i < thread.posts.length; i++) {
+        //console.log("post:\n" + thread.posts[i].com);
         if (searchTextForWords(thread.posts[i].com, keywords) == true) {
+            //console.log("found one");
             filteredThread.push(thread.posts[i]);
         }
     }
 
+    //console.log(filteredThread);
     return filteredThread;
 
 };
