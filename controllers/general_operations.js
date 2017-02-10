@@ -219,7 +219,7 @@ function searchForIdInRecentThreads(threads, id, howMany) {
 
     var result = -1;
 
-    for (var i = threads.length - 1; i > threads.length - howMany; i--) {
+    for (var i = threads.length - 1; (i > threads.length - howMany) && i>0; i--) {
         if (threads[i].no == id) {
             result = i;
             break;

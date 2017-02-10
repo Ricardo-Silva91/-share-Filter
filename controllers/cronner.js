@@ -10,7 +10,7 @@ var paths = require('./../paths');
 var general_operations = require('./general_operations');
 
 var cron = require('cron');
-//var cronJob = cron.job("*/5 * * * * *", function () {
+//var cronJob = cron.job("*/2 * * * * *", function () {
 var cronJob = cron.job("0 0 * * * *", function () {
 
     var filesPath = [paths.threads_path];
