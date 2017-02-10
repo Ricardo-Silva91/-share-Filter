@@ -1,12 +1,14 @@
 # SharioRestApi.UserApi
 
-All URIs are relative to *http://localhost:8080/*
+All URIs are relative to *http://localhost/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addKeywordPOST**](UserApi.md#addKeywordPOST) | **POST** /addKeyword | new keyword
+[**filteredThreadByUserGET**](UserApi.md#filteredThreadByUserGET) | **GET** /getFilteredThreadByUser | get Thread by id, filtered using user keywords
 [**loginPOST**](UserApi.md#loginPOST) | **POST** /login | login
 [**threadGET**](UserApi.md#threadGET) | **GET** /getThread | get Thread by id
+[**threadsBriefGET**](UserApi.md#threadsBriefGET) | **GET** /getThreadsBrief | get All Threads - brief
 [**threadsDateGET**](UserApi.md#threadsDateGET) | **GET** /getThreadsAfter | get Threads after a date
 [**threadsGET**](UserApi.md#threadsGET) | **GET** /getThreads | get All Threads
 
@@ -48,6 +50,55 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**OkRes**](OkRes.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="filteredThreadByUserGET"></a>
+# **filteredThreadByUserGET**
+> Thread filteredThreadByUserGET(token, threadId)
+
+get Thread by id, filtered using user keywords
+
+get one thread from the server, by id, filtered using user keywords. 
+
+### Example
+```javascript
+var SharioRestApi = require('shario_rest_api');
+
+var apiInstance = new SharioRestApi.UserApi();
+
+var token = "token_example"; // String | The user's token
+
+var threadId = "threadId_example"; // String | The thread's id
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.filteredThreadByUserGET(token, threadId, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **String**| The user&#39;s token | 
+ **threadId** | **String**| The thread&#39;s id | 
+
+### Return type
+
+[**Thread**](Thread.md)
 
 ### Authorization
 
@@ -144,6 +195,52 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Thread**](Thread.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="threadsBriefGET"></a>
+# **threadsBriefGET**
+> Threads threadsBriefGET(token)
+
+get All Threads - brief
+
+get every thread id and brief details in the server 
+
+### Example
+```javascript
+var SharioRestApi = require('shario_rest_api');
+
+var apiInstance = new SharioRestApi.UserApi();
+
+var token = "token_example"; // String | The user's token
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.threadsBriefGET(token, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **String**| The user&#39;s token | 
+
+### Return type
+
+[**Threads**](Threads.md)
 
 ### Authorization
 

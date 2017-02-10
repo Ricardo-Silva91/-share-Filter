@@ -67,14 +67,16 @@ api.rootGET(callback);
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost:8080/*
+All URIs are relative to *http://localhost/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *SharioRestApi.PublicApi* | [**rootGET**](docs/PublicApi.md#rootGET) | **GET** / | nothing
 *SharioRestApi.UserApi* | [**addKeywordPOST**](docs/UserApi.md#addKeywordPOST) | **POST** /addKeyword | new keyword
+*SharioRestApi.UserApi* | [**filteredThreadByUserGET**](docs/UserApi.md#filteredThreadByUserGET) | **GET** /getFilteredThreadByUser | get Thread by id, filtered using user keywords
 *SharioRestApi.UserApi* | [**loginPOST**](docs/UserApi.md#loginPOST) | **POST** /login | login
 *SharioRestApi.UserApi* | [**threadGET**](docs/UserApi.md#threadGET) | **GET** /getThread | get Thread by id
+*SharioRestApi.UserApi* | [**threadsBriefGET**](docs/UserApi.md#threadsBriefGET) | **GET** /getThreadsBrief | get All Threads - brief
 *SharioRestApi.UserApi* | [**threadsDateGET**](docs/UserApi.md#threadsDateGET) | **GET** /getThreadsAfter | get Threads after a date
 *SharioRestApi.UserApi* | [**threadsGET**](docs/UserApi.md#threadsGET) | **GET** /getThreads | get All Threads
 
