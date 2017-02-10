@@ -1988,26 +1988,39 @@ function filterThreadAndShow(id) {
 
             var theElement;
 
-            for (var i = 0; i < data.length; i++) {
-
-                if (i % 3 == 0) {
-                    $('.posts').append('<div class="row"></div>');
-                }
+            if (data.length == 0) {
+                $('.posts').append('<div class="row"></div>');
 
                 theElement =
-                    '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
-                    '<div class="services-wrapper" style="word-wrap: break-word">' +
-                    //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
-                    '<p>' +
-                    urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
-                    '</p>' +
-                    '</div>' +
+                    '<div class="col-lg-4 text-center">' +
+                        '<h1>Sorry, no posts</h1>' +
                     '</div>';
 
-
-                //console.log(urlify(strip(data[i].com)));
-                $($('.posts > .row')[$('.posts > .row').length-1]).append(theElement);
+                $($('.posts > .row')[$('.posts > .row').length - 1]).append(theElement);
             }
+            else {
+                for (var i = 0; i < data.length; i++) {
+
+                    if (i % 3 == 0) {
+                        $('.posts').append('<div class="row"></div>');
+                    }
+
+                    theElement =
+                        '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
+                        '<div class="services-wrapper" style="word-wrap: break-word">' +
+                        //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
+                        '<p>' +
+                        urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
+                        '</p>' +
+                        '</div>' +
+                        '</div>';
+
+
+                    //console.log(urlify(strip(data[i].com)));
+                    $($('.posts > .row')[$('.posts > .row').length - 1]).append(theElement);
+                }
+            }
+
             document.getElementById("services").style.display = 'block';
             window.location.href = '#services';
 
