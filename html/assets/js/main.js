@@ -18,7 +18,7 @@ var callback = function (error, data, response) {
             var theElement;
             data = response.body;
             for (var i = 0; i < data.length; i++) {
-                theElement = '<div align="middle" class="item text-center ' + (i==0 ? 'active':'') +'">' +
+                theElement = '<div align="middle" class="item text-center ' + (i == 0 ? 'active' : '') + '">' +
                     '<h3>' +
                     data[i]['sub'] +
                     '</h3>' +
@@ -42,14 +42,13 @@ apiInstance.threadsBriefGET(token, callback);
 
 function urlify(text) {
     var urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, function(url) {
+    return text.replace(urlRegex, function (url) {
         return '<p><a target="_blank" href="' + url + '">' + url + '</a></p>';
     })
     // or alternatively
     // return text.replace(urlRegex, '<a href="$1">$1</a>')
 }
-function strip(html)
-{
+function strip(html) {
     var tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
@@ -77,7 +76,13 @@ function filterThreadAndShow(id) {
             var theElement;
 
             for (var i = 0; i < data.length; i++) {
-                theElement = '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
+
+                if (i % 3 == 0) {
+                    $('.posts').append('<div class="row"></div>');
+                }
+
+                theElement =
+                    '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
                     '<div class="services-wrapper" style="word-wrap: break-word">' +
                     //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
                     '<p>' +
@@ -86,8 +91,9 @@ function filterThreadAndShow(id) {
                     '</div>' +
                     '</div>';
 
+
                 //console.log(urlify(strip(data[i].com)));
-                $('.posts').append(theElement);
+                $($('.posts > .row')[$('.posts > .row').length-1]).append(theElement);
             }
             document.getElementById("services").style.display = 'block';
             window.location.href = '#services';
