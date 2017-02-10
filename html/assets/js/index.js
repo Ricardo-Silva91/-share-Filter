@@ -1992,7 +1992,7 @@ function filterThreadAndShow(id) {
             for (var i = 0; i < data.length; i++) {
                 theElement = '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
                     '<div class="" style="word-wrap: break-word">' +
-                    //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
+                    '<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
                     '<p>' +
                     urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
                     '</p>' +
