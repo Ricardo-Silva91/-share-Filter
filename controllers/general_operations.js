@@ -113,7 +113,7 @@ exports.getThreadsFrom4Chan = function (cb) {
     })
 };
 
-exports.updateThreads = function (threads, newThreads) {
+exports.updateThreads = function (threads, newThreads, cb) {
 
     console.log("private method updateThreads entered");
 
@@ -133,6 +133,7 @@ exports.updateThreads = function (threads, newThreads) {
             getThreadPosts(threadId, function (posts) {
                 //console.log(threads);
                 threads[threads.length - 1].posts = posts;
+                cb(threads);
             });
 
         }
@@ -141,13 +142,14 @@ exports.updateThreads = function (threads, newThreads) {
             console.log("private method updateThreads: old thread - updating");
 
             getThreadPosts(threadId, function (posts) {
-                //console.log(threads);
                 threads[threadPos].posts = posts;
+                //console.log(threads);
+                cb(threads);
+
             });
         }
     }
 
-    return threads;
 
 };
 
@@ -247,7 +249,7 @@ function getThreadPosts(threadId, cb) {
                 //console.log(body);
 
 
-                //console.log(shareThreads);
+                //console.log(body.posts);
 
                 cb(body.posts);
             }

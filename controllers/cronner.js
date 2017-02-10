@@ -12,7 +12,6 @@ var general_operations = require('./general_operations');
 var cron = require('cron');
 
 
-
 function startRefresh() {
 
     var filesPath = [paths.threads_path];
@@ -26,11 +25,18 @@ function startRefresh() {
 
         general_operations.getThreadsFrom4Chan(function (newThreads) {
 
-
             //console.log("threads before:\n" + threads);
-            threads = general_operations.updateThreads(threads, newThreads);
-            //console.log("threads:\n" + threads);
+            //threads = general_operations.updateThreads(threads, newThreads);
 
+            general_operations.updateThreads(threads, newThreads, function (updatedThreads) {
+
+                console.log("threads:\n" + updatedThreads);
+
+                fs.writeFile(paths.threads_path, JSON.stringify(updatedThreads), function (err) {
+                    console.error(err)
+                });
+
+            });
 
         });
 
@@ -40,8 +46,6 @@ function startRefresh() {
     console.info('start job completed');
 
 }
-
-
 
 
 //var cronJob = cron.job("*/2 * * * * *", function () {
