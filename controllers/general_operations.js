@@ -62,6 +62,39 @@ exports.getThreadPosById = function (threads, threadId) {
 
 };
 
+exports.getThreadPosByDate = function (threads, date) {
+    var result = -1;
+
+    //console.log("creation date:\n" + new Date(threads[0].now).getTime());
+    //console.log("date:\n" + date);
+
+    for (var i = threads.length - 1; i >= 0; i--) {
+
+        //console.log('private getUserPosByToken: checking user ' + users[i].username);
+        //console.log('private getUserPosByToken: user ' + users[i].username + ' token ' + users[i].current_token);
+
+        var creationDate = new Date(threads[i].now).getTime();
+        //console.log("creation date:\n" + creationDate);
+        //console.log("date:\n" + date);
+
+        if (creationDate < date) {
+            console.log('private getThreadPosByDate: older thread reached.');
+
+            if (i != threads.length - 1) {
+                result = i + 1;
+            }
+            break;
+        }
+    }
+
+    if (i == -1) {
+        result = 0;
+    }
+
+    return result;
+
+};
+
 exports.filterThreadByKeywords = function (thread, keywords) {
 
     var filteredThread = [];
@@ -140,8 +173,7 @@ exports.updateThreads = function (threads, newThreads, cb) {
             });
 
         }
-        else
-        {
+        else {
             console.log("private method updateThreads: old thread - updating");
 
             getThreadPosts(threadId, function (posts) {
@@ -160,13 +192,50 @@ exports.briefThreads = function (threads) {
 
     console.log("private method briefThreads entered");
 
-    for (var i=0; i<threads.length; i++)
-    {
+    for (var i = 0; i < threads.length; i++) {
         delete threads[i].last_replies;
         delete threads[i].posts;
     }
 
     return threads;
+
+};
+
+exports.findSomethingBySomething = function (list, something, toFind) {
+
+    var result = -1;
+
+    for (var i = 0; i < list.length; i++) {
+
+        //console.log('private getUserPosByToken: checking user ' + users[i].username);
+        //console.log('private getUserPosByToken: user ' + users[i].username + ' token ' + users[i].current_token);
+
+        if (list[i][something] == toFind) {
+            console.log('private findSomethingBySomething: found.');
+            result = i;
+            break;
+        }
+    }
+    return result;
+
+};
+
+exports.keywordsExists = function (keywords, newKey) {
+
+    var result = false;
+
+    for (var i = 0; i < keywords.length; i++) {
+
+        //console.log('private getUserPosByToken: checking user ' + users[i].username);
+        //console.log('private getUserPosByToken: user ' + users[i].username + ' token ' + users[i].current_token);
+
+        if (keywords[i] == newKey) {
+            console.log('private keywordsExists: exists.');
+            result = true;
+            break;
+        }
+    }
+    return result;
 
 };
 
@@ -224,7 +293,7 @@ function searchForIdInRecentThreads(threads, id, howMany) {
 
     var result = -1;
 
-    for (var i = threads.length - 1; (i > threads.length - howMany) && i>0; i--) {
+    for (var i = threads.length - 1; (i > threads.length - howMany) && i > 0; i--) {
         if (threads[i].no == id) {
             result = i;
             break;

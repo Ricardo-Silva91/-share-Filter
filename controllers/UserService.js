@@ -21,8 +21,118 @@ exports.addKeywordPOST = function (args, res, next) {
         "result": "aeiou"
     };
     if (Object.keys(examples).length > 0) {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+        var userToken = args.body.value.token;
+        var keyword = args.body.value.keyword;
+
+        var filesPath = [paths.users_path];
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1 && general_operations.keywordsExists(users[userPos].keywords, keyword)==false) {
+                //examples.userPos = userPos;
+
+                users[userPos].keywords.push(keyword);
+
+                fs.writeFile(paths.users_path, JSON.stringify(users), function (err) {
+                    console.error(err)
+                });
+
+                examples = {
+                    result: "success"
+                };
+
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(examples, null, 2));
+
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found or keyword exists",
+                    fields: "token or keyword"
+                }));
+            }
+
+
+        });
+    } else {
+        res.end();
+    }
+}
+
+exports.userKeywordsPOST = function (args, res, next) {
+    /**
+     * new keyword
+     * Adds a new keyword to the key list.
+     *
+     * body AddKeyword_req request. (optional)
+     * returns Ok_res
+     **/
+    var examples = {};
+    examples['application/json'] = {
+        "result": "aeiou"
+    };
+    if (Object.keys(examples).length > 0) {
+
+        var userToken = args.body.value.token;
+        var keywords = args.body.value.keywords;
+
+        var filesPath = [paths.users_path];
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1) {
+                //examples.userPos = userPos;
+
+                users[userPos].keywords = keywords;
+
+                fs.writeFile(paths.users_path, JSON.stringify(users), function (err) {
+                    console.error(err)
+                });
+
+                examples = {
+                    result: "success"
+                };
+
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(examples, null, 2));
+
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found",
+                    fields: "token"
+                }));
+            }
+
+
+        });
+
     } else {
         res.end();
     }
@@ -132,8 +242,62 @@ exports.threadGET = function (args, res, next) {
         }]
     };
     if (Object.keys(examples).length > 0) {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+        var userToken = args.token.value;
+        var threadId = args.threadId.value;
+
+        var filesPath = [paths.users_path, paths.threads_path];
+
+        //console.log(paths.users_path);
+
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            var threads = JSON.parse(results[1]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1) {
+                //examples.userPos = userPos;
+
+                var threadPos = general_operations.getThreadPosById(threads, threadId);
+
+                if (threadPos != -1) {
+                    examples = threads[threadPos];
+                    examples.result = "success";
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(examples, null, 2));
+                }
+                else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({
+                        result: "fail",
+                        code: 1,
+                        message: "thread not found",
+                        fields: "threadId"
+                    }));
+                }
+
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found",
+                    fields: "token"
+                }));
+            }
+
+
+        });
     } else {
         res.end();
     }
@@ -151,8 +315,66 @@ exports.threadsDateGET = function (args, res, next) {
     var examples = {};
     examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+        var userToken = args.token.value;
+        var date = args.date.value;
+
+        var filesPath = [paths.users_path, paths.threads_path];
+
+        //console.log(paths.users_path);
+
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            var threads = JSON.parse(results[1]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1) {
+                //examples.userPos = userPos;
+
+                //var threadPos = general_operations.getThreadPosById(threads, threadId);
+
+                var theDate = new Date(date).getTime();
+
+                var threadPos = general_operations.getThreadPosByDate(threads, theDate);
+
+                if (threadPos != -1) {
+                    examples = general_operations.briefThreads(threads.slice(threadPos, threads.length));//threads[threadPos];
+                    examples.result = "success";
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(examples, null, 2));
+                }
+                else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({
+                        result: "fail",
+                        code: 1,
+                        message: "no threads found",
+                        fields: "date"
+                    }));
+                }
+
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found",
+                    fields: "token"
+                }));
+            }
+
+
+        });
     } else {
         res.end();
     }
@@ -192,6 +414,63 @@ exports.threadsGET = function (args, res, next) {
             if (userPos != -1) {
                 //examples.userPos = userPos;
                 examples = threads;
+                examples.result = "success";
+
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(examples, null, 2));
+
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                    result: "fail",
+                    code: 1,
+                    message: "user not found",
+                    fields: "token"
+                }));
+            }
+
+
+        });
+
+    } else {
+        res.end();
+    }
+}
+
+exports.userKeywordsGET = function (args, res, next) {
+    /**
+     * get All Threads
+     * get every thread in the server
+     *
+     * token String The user's token
+     * returns threads
+     **/
+    var examples = {};
+    examples['application/json'] = "";
+    if (Object.keys(examples).length > 0) {
+
+        var userToken = args.token.value;
+
+        var filesPath = [paths.users_path];
+
+        //console.log(paths.users_path);
+
+
+        async.map(filesPath, function (filePath, cb) { //reading files or dir
+            fs.readFile(filePath, 'utf8', cb);
+        }, function (err, results) {
+
+            var users = JSON.parse(results[0]);
+            //console.log(userToken);
+
+            //console.log(users);
+
+            var userPos = general_operations.getUserPosByToken(users, userToken);
+
+            if (userPos != -1) {
+                //examples.userPos = userPos;
+                examples = users[userPos].keywords;
                 examples.result = "success";
 
                 res.setHeader('Content-Type', 'application/json');

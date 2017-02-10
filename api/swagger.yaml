@@ -159,6 +159,53 @@ paths:
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "User"
+  /userKeywords:
+    get:
+      tags:
+      - "user"
+      summary: "get a user's keywords"
+      description: "get list of user keywords, used to filter threads.\n"
+      operationId: "userKeywordsGET"
+      parameters:
+      - name: "token"
+        in: "query"
+        description: "The user's token"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the keywords"
+          schema:
+            $ref: "#/definitions/keyWords"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+    post:
+      tags:
+      - "user"
+      summary: "edit keywords"
+      description: "replaces user keywords with new list."
+      operationId: "userKeywordsPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "request."
+        required: false
+        schema:
+          $ref: "#/definitions/userKeywordsPOST_req"
+      responses:
+        200:
+          description: "result"
+          schema:
+            $ref: "#/definitions/Ok_res"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "User"
+
   /addKeyword:
     post:
       tags:
@@ -220,6 +267,19 @@ definitions:
         type: "string"
       keyword:
         type: "string"
+
+  userKeywordsPOST_req:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      keywords:
+        $ref: "#/definitions/keyWords"
+
+  keyWords:
+    type: "array"
+    items:
+      type: "string"
   post:
     type: "object"
     properties:

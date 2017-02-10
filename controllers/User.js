@@ -8,6 +8,10 @@ module.exports.addKeywordPOST = function addKeywordPOST (req, res, next) {
   User.addKeywordPOST(req.swagger.params, res, next);
 };
 
+module.exports.userKeywordsPOST = function userKeywordsPOST (req, res, next) {
+    User.userKeywordsPOST(req.swagger.params, res, next);
+};
+
 module.exports.loginPOST = function loginPOST (req, res, next) {
   User.loginPOST(req.swagger.params, res, next);
 };
@@ -26,6 +30,10 @@ module.exports.threadsGET = function threadsGET (req, res, next) {
 
 module.exports.threadsBriefGET = function threadsBriefGET (req, res, next) {
     User.threadsBriefGET(req.swagger.params, res, next);
+};
+
+module.exports.userKeywordsGET = function userKeywordsGET (req, res, next) {
+    User.userKeywordsGET(req.swagger.params, res, next);
 };
 
 module.exports.filteredThreadByUserGET = function filteredThreadByUserGET (req, res, next) {
