@@ -1,6 +1,6 @@
 # SharioRestApi.UserApi
 
-All URIs are relative to *http://localhost/*
+All URIs are relative to *http://localhost:5001/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,6 +11,8 @@ Method | HTTP request | Description
 [**threadsBriefGET**](UserApi.md#threadsBriefGET) | **GET** /getThreadsBrief | get All Threads - brief
 [**threadsDateGET**](UserApi.md#threadsDateGET) | **GET** /getThreadsAfter | get Threads after a date
 [**threadsGET**](UserApi.md#threadsGET) | **GET** /getThreads | get All Threads
+[**userKeywordsGET**](UserApi.md#userKeywordsGET) | **GET** /userKeywords | get a user&#39;s keywords
+[**userKeywordsPOST**](UserApi.md#userKeywordsPOST) | **POST** /userKeywords | edit keywords
 
 
 <a name="addKeywordPOST"></a>
@@ -336,6 +338,99 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Threads**](Threads.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="userKeywordsGET"></a>
+# **userKeywordsGET**
+> KeyWords userKeywordsGET(token)
+
+get a user&#39;s keywords
+
+get list of user keywords, used to filter threads. 
+
+### Example
+```javascript
+var SharioRestApi = require('shario_rest_api');
+
+var apiInstance = new SharioRestApi.UserApi();
+
+var token = "token_example"; // String | The user's token
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.userKeywordsGET(token, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **String**| The user&#39;s token | 
+
+### Return type
+
+[**KeyWords**](KeyWords.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="userKeywordsPOST"></a>
+# **userKeywordsPOST**
+> OkRes userKeywordsPOST(opts)
+
+edit keywords
+
+replaces user keywords with new list.
+
+### Example
+```javascript
+var SharioRestApi = require('shario_rest_api');
+
+var apiInstance = new SharioRestApi.UserApi();
+
+var opts = { 
+  'body': new SharioRestApi.UserKeywordsPOSTReq() // UserKeywordsPOSTReq | request.
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.userKeywordsPOST(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**UserKeywordsPOSTReq**](UserKeywordsPOSTReq.md)| request. | [optional] 
+
+### Return type
+
+[**OkRes**](OkRes.md)
 
 ### Authorization
 

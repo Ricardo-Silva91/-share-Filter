@@ -4,6 +4,8 @@ var apiInstance = new SharioRestApi.UserApi();
 
 var token = getCookie('threadioManyCooks'); // String | The user's token
 
+var threadId_global;
+
 
 var callback = function (error, data, response) {
     if (error) {
@@ -15,24 +17,46 @@ var callback = function (error, data, response) {
             window.location.href = "login.html";
         }
         else {
-            var theElement;
+            var theElement, linkCode;
             data = response.body;
             for (var i = 0; i < data.length; i++) {
-                theElement = '<div align="middle" class="item text-center ' + (i == 0 ? 'active' : '') + '">' +
+
+                linkCode = '0' + data[i].no.toString().substring(0,3) + '/' + data[i].no.toString().substring(3,5) + '/';
+
+
+                theElement =
+                    '<div class="item col-lg-4 ' + (i == 0 ? 'active' : '') + '">' +
+                    '<div class="services-wrapper" style="word-wrap: break-word; max-height: 100%">' +
+                    '<a title="' + data[i].no + '" class="threadPic">' +
+                    (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
+                    '</a>' +
+                    '<p>' +
+                    data[i]['sub'] +
+                    '</p>' +
+                    '</div>' +
+                    '</div>';
+
+
+
+                    /*'<div align="middle" class="services-wrapper item text-center ' + (i == 0 ? 'active' : '') + '">' +
                     '<h3>' +
                     data[i]['sub'] +
                     '</h3>' +
-                    '<a title="' + data[i].no + '" class="threadPic"><img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
+                    '<a title="' + data[i].no + '" class="threadPic">' +
+                    //'<img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
+                    (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
                     '</a>' +
-                    '</div>';
+                    '</div>'*/;
 
                 $('.carousel-inner').append(theElement);
 
             }
             $(".threadPic").click(function () {
                 console.log(this.title);
+                threadId_global = this.title;
                 filterThreadAndShow(this.title);
-
+            });
+            $( "#myModal" ).on('shown.bs.modal', function(){
 
             });
         }
@@ -53,8 +77,6 @@ function strip(html) {
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
 }
-
-
 function filterThreadAndShow(id) {
 
     $('.posts').html("");
@@ -73,7 +95,7 @@ function filterThreadAndShow(id) {
 
             data = response.body;
 
-            var theElement;
+            var theElement, linkCode;
 
             if (data.length == 0) {
                 $('.posts').append('<div class="row"></div>');
@@ -92,10 +114,12 @@ function filterThreadAndShow(id) {
                         $('.posts').append('<div class="row"></div>');
                     }
 
+                    linkCode = '0' + threadId_global.toString().substring(0,3) + '/' + threadId_global.toString().substring(3,5) + '/';
+
                     theElement =
                         '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
                         '<div class="services-wrapper" style="word-wrap: break-word">' +
-                        //'<img style="width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + 's' + data[i].ext + '">' +
+                        (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
                         '<p>' +
                         urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
                         '</p>' +
@@ -115,3 +139,32 @@ function filterThreadAndShow(id) {
     };
     apiInstance.filteredThreadByUserGET(token, threadId, callback);
 }
+function populateMyModal() {
+
+    
+
+}
+
+
+$(function(){ // DOM ready
+
+    // ::: TAGS BOX
+
+    $("#tags input").on({
+        focusout : function() {
+            var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig,''); // allowed characters
+            if(txt) $("<span/>", {text:txt.toLowerCase(), insertBefore:this});
+            this.value = "";
+        },
+        keyup : function(ev) {
+            // if: comma|enter (delimit more keyCodes with | pipe)
+            if(/(188|13)/.test(ev.which)) $(this).focusout();
+        }
+    });
+    $('#tags').on('click', 'span', function() {
+        /*if(confirm("Remove "+ $(this).text() +"?"))*/ $(this).remove();
+    });
+
+
+
+});

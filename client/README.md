@@ -67,7 +67,7 @@ api.rootGET(callback);
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost/*
+All URIs are relative to *http://localhost:5001/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -79,18 +79,22 @@ Class | Method | HTTP request | Description
 *SharioRestApi.UserApi* | [**threadsBriefGET**](docs/UserApi.md#threadsBriefGET) | **GET** /getThreadsBrief | get All Threads - brief
 *SharioRestApi.UserApi* | [**threadsDateGET**](docs/UserApi.md#threadsDateGET) | **GET** /getThreadsAfter | get Threads after a date
 *SharioRestApi.UserApi* | [**threadsGET**](docs/UserApi.md#threadsGET) | **GET** /getThreads | get All Threads
+*SharioRestApi.UserApi* | [**userKeywordsGET**](docs/UserApi.md#userKeywordsGET) | **GET** /userKeywords | get a user&#39;s keywords
+*SharioRestApi.UserApi* | [**userKeywordsPOST**](docs/UserApi.md#userKeywordsPOST) | **POST** /userKeywords | edit keywords
 
 
 ## Documentation for Models
 
  - [SharioRestApi.AddKeywordReq](docs/AddKeywordReq.md)
  - [SharioRestApi.Error](docs/Error.md)
+ - [SharioRestApi.KeyWords](docs/KeyWords.md)
  - [SharioRestApi.LoginInfo](docs/LoginInfo.md)
  - [SharioRestApi.LoginRes](docs/LoginRes.md)
  - [SharioRestApi.OkRes](docs/OkRes.md)
  - [SharioRestApi.Post](docs/Post.md)
  - [SharioRestApi.Thread](docs/Thread.md)
  - [SharioRestApi.Threads](docs/Threads.md)
+ - [SharioRestApi.UserKeywordsPOSTReq](docs/UserKeywordsPOSTReq.md)
 
 
 ## Documentation for Authorization
