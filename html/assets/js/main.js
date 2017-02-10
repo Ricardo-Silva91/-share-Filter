@@ -86,7 +86,7 @@ function filterThreadAndShow(id) {
                     '</div>' +
                     '</div>';
 
-                console.log(urlify(strip(data[i].com)));
+                //console.log(urlify(strip(data[i].com)));
                 $('.posts').append(theElement);
             }
             document.getElementById("services").style.display = 'block';
