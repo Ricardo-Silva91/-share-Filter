@@ -470,7 +470,7 @@ exports.userKeywordsGET = function (args, res, next) {
 
             if (userPos != -1) {
                 //examples.userPos = userPos;
-                examples = users[userPos].keywords;
+                examples.keywords = users[userPos].keywords;
                 examples.result = "success";
 
                 res.setHeader('Content-Type', 'application/json');

@@ -176,7 +176,7 @@ paths:
         200:
           description: "the keywords"
           schema:
-            $ref: "#/definitions/keyWords"
+            $ref: "#/definitions/userKeywordsGET_res"
         default:
           description: "Unexpected error"
           schema:
@@ -273,13 +273,20 @@ definitions:
     properties:
       token:
         type: "string"
-      keywords:
-        $ref: "#/definitions/keyWords"
+      keyWords:
+        type: "array"
+        items:
+          type: "string"
 
-  keyWords:
-    type: "array"
-    items:
-      type: "string"
+  userKeywordsGET_res:
+    type: "object"
+    properties:
+      result:
+        type: "string"
+      keyWords:
+        type: "array"
+        items:
+          type: "string"
   post:
     type: "object"
     properties:
