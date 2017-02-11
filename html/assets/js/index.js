@@ -2059,22 +2059,72 @@ function populateMyModal() {
 
     var apiInstance = new SharioRestApi.UserApi();
 
-    var token = "token_example"; // String | The user's token
+    var token = getCookie("threadioManyCooks"); // String | The user's token
 
 
-    var callback = function(error, data, response) {
+    var callback = function (error, data, response) {
         if (error) {
             console.error(error);
         } else {
-            console.log('API called successfully. Returned data: ' + data);
+            //console.log('API called successfully. Returned data: ' + data);
+            //console.log(response.body.keywords);
+
+            $('#tags').html('');
+
+            data = response.body;
+
+            for (var i = 0; i < data.keywords.length; i++) {
+                $('#tags').append('<span>' + data.keywords[i] + '</span>');
+            }
+            $('#tags').append('<input style="color: #000;" type="text" value="" placeholder="Add a tag" />');
+
+            makeFormAlive();
+
         }
     };
     apiInstance.userKeywordsGET(token, callback);
 }
 
+$("#editKeysForm").submit(function (event) {
+    //alert( "Handler for .submit() called." );
+    event.preventDefault();
 
-$(function () { // DOM ready
+    var spans = $('#tags > span');
+    var newKeyWords = [];
 
+    for (var i = 0; i < spans.length; i++) {
+        newKeyWords.push(spans[i].innerText);
+    }
+    var uniqueNewKeys = [];
+    $.each(newKeyWords, function (i, el) {
+        if ($.inArray(el, uniqueNewKeys) === -1) uniqueNewKeys.push(el);
+    });
+
+    var SharioRestApi = require('shario_rest_api');
+
+    var apiInstance = new SharioRestApi.UserApi();
+
+    var opts = {
+        'body': //new SharioRestApi.UserKeywordsPOSTReq() // UserKeywordsPOSTReq | request.
+            {
+                token: getCookie('threadioManyCooks'),
+                keywords: uniqueNewKeys
+            }
+    };
+
+    var callback = function (error, data, response) {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+            window.location.reload();
+        }
+    };
+    apiInstance.userKeywordsPOST(opts, callback);
+
+});
+
+function makeFormAlive() {
     // ::: TAGS BOX
 
     $("#tags input").on({
@@ -2092,6 +2142,9 @@ $(function () { // DOM ready
         /*if(confirm("Remove "+ $(this).text() +"?"))*/
         $(this).remove();
     });
+}
+
+$(function () { // DOM ready
 
 
 });
@@ -4108,18 +4161,18 @@ module.exports = function(arr, fn, initial){
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/AddKeywordReq', 'model/Error', 'model/KeyWords', 'model/LoginInfo', 'model/LoginRes', 'model/OkRes', 'model/Thread', 'model/Threads', 'model/UserKeywordsPOSTReq'], factory);
+    define(['ApiClient', 'model/AddKeywordReq', 'model/Error', 'model/LoginInfo', 'model/LoginRes', 'model/OkRes', 'model/Thread', 'model/Threads', 'model/UserKeywordsGETRes', 'model/UserKeywordsPOSTReq'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/AddKeywordReq'), require('../model/Error'), require('../model/KeyWords'), require('../model/LoginInfo'), require('../model/LoginRes'), require('../model/OkRes'), require('../model/Thread'), require('../model/Threads'), require('../model/UserKeywordsPOSTReq'));
+    module.exports = factory(require('../ApiClient'), require('../model/AddKeywordReq'), require('../model/Error'), require('../model/LoginInfo'), require('../model/LoginRes'), require('../model/OkRes'), require('../model/Thread'), require('../model/Threads'), require('../model/UserKeywordsGETRes'), require('../model/UserKeywordsPOSTReq'));
   } else {
     // Browser globals (root is window)
     if (!root.SharioRestApi) {
       root.SharioRestApi = {};
     }
-    root.SharioRestApi.UserApi = factory(root.SharioRestApi.ApiClient, root.SharioRestApi.AddKeywordReq, root.SharioRestApi.Error, root.SharioRestApi.KeyWords, root.SharioRestApi.LoginInfo, root.SharioRestApi.LoginRes, root.SharioRestApi.OkRes, root.SharioRestApi.Thread, root.SharioRestApi.Threads, root.SharioRestApi.UserKeywordsPOSTReq);
+    root.SharioRestApi.UserApi = factory(root.SharioRestApi.ApiClient, root.SharioRestApi.AddKeywordReq, root.SharioRestApi.Error, root.SharioRestApi.LoginInfo, root.SharioRestApi.LoginRes, root.SharioRestApi.OkRes, root.SharioRestApi.Thread, root.SharioRestApi.Threads, root.SharioRestApi.UserKeywordsGETRes, root.SharioRestApi.UserKeywordsPOSTReq);
   }
-}(this, function(ApiClient, AddKeywordReq, Error, KeyWords, LoginInfo, LoginRes, OkRes, Thread, Threads, UserKeywordsPOSTReq) {
+}(this, function(ApiClient, AddKeywordReq, Error, LoginInfo, LoginRes, OkRes, Thread, Threads, UserKeywordsGETRes, UserKeywordsPOSTReq) {
   'use strict';
 
   /**
@@ -4478,7 +4531,7 @@ module.exports = function(arr, fn, initial){
      * Callback function to receive the result of the userKeywordsGET operation.
      * @callback module:api/UserApi~userKeywordsGETCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/KeyWords} data The data returned by the service call.
+     * @param {module:model/UserKeywordsGETRes} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -4487,7 +4540,7 @@ module.exports = function(arr, fn, initial){
      * get list of user keywords, used to filter threads. 
      * @param {String} token The user&#39;s token
      * @param {module:api/UserApi~userKeywordsGETCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/KeyWords}
+     * data is of type: {@link module:model/UserKeywordsGETRes}
      */
     this.userKeywordsGET = function(token, callback) {
       var postBody = null;
@@ -4511,7 +4564,7 @@ module.exports = function(arr, fn, initial){
       var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json'];
-      var returnType = KeyWords;
+      var returnType = UserKeywordsGETRes;
 
       return this.apiClient.callApi(
         '/userKeywords', 'GET',
@@ -4566,7 +4619,7 @@ module.exports = function(arr, fn, initial){
   return exports;
 }));
 
-},{"../ApiClient":9,"../model/AddKeywordReq":13,"../model/Error":14,"../model/KeyWords":15,"../model/LoginInfo":16,"../model/LoginRes":17,"../model/OkRes":18,"../model/Thread":20,"../model/Threads":21,"../model/UserKeywordsPOSTReq":22}],12:[function(require,module,exports){
+},{"../ApiClient":9,"../model/AddKeywordReq":13,"../model/Error":14,"../model/LoginInfo":15,"../model/LoginRes":16,"../model/OkRes":17,"../model/Thread":19,"../model/Threads":20,"../model/UserKeywordsGETRes":21,"../model/UserKeywordsPOSTReq":22}],12:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -4583,12 +4636,12 @@ module.exports = function(arr, fn, initial){
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/AddKeywordReq', 'model/Error', 'model/KeyWords', 'model/LoginInfo', 'model/LoginRes', 'model/OkRes', 'model/Post', 'model/Thread', 'model/Threads', 'model/UserKeywordsPOSTReq', 'api/PublicApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/AddKeywordReq', 'model/Error', 'model/LoginInfo', 'model/LoginRes', 'model/OkRes', 'model/Post', 'model/Thread', 'model/Threads', 'model/UserKeywordsGETRes', 'model/UserKeywordsPOSTReq', 'api/PublicApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/AddKeywordReq'), require('./model/Error'), require('./model/KeyWords'), require('./model/LoginInfo'), require('./model/LoginRes'), require('./model/OkRes'), require('./model/Post'), require('./model/Thread'), require('./model/Threads'), require('./model/UserKeywordsPOSTReq'), require('./api/PublicApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/AddKeywordReq'), require('./model/Error'), require('./model/LoginInfo'), require('./model/LoginRes'), require('./model/OkRes'), require('./model/Post'), require('./model/Thread'), require('./model/Threads'), require('./model/UserKeywordsGETRes'), require('./model/UserKeywordsPOSTReq'), require('./api/PublicApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, AddKeywordReq, Error, KeyWords, LoginInfo, LoginRes, OkRes, Post, Thread, Threads, UserKeywordsPOSTReq, PublicApi, UserApi) {
+}(function(ApiClient, AddKeywordReq, Error, LoginInfo, LoginRes, OkRes, Post, Thread, Threads, UserKeywordsGETRes, UserKeywordsPOSTReq, PublicApi, UserApi) {
   'use strict';
 
   /**
@@ -4639,11 +4692,6 @@ module.exports = function(arr, fn, initial){
      */
     Error: Error,
     /**
-     * The KeyWords model constructor.
-     * @property {module:model/KeyWords}
-     */
-    KeyWords: KeyWords,
-    /**
      * The LoginInfo model constructor.
      * @property {module:model/LoginInfo}
      */
@@ -4674,6 +4722,11 @@ module.exports = function(arr, fn, initial){
      */
     Threads: Threads,
     /**
+     * The UserKeywordsGETRes model constructor.
+     * @property {module:model/UserKeywordsGETRes}
+     */
+    UserKeywordsGETRes: UserKeywordsGETRes,
+    /**
      * The UserKeywordsPOSTReq model constructor.
      * @property {module:model/UserKeywordsPOSTReq}
      */
@@ -4693,7 +4746,7 @@ module.exports = function(arr, fn, initial){
   return exports;
 }));
 
-},{"./ApiClient":9,"./api/PublicApi":10,"./api/UserApi":11,"./model/AddKeywordReq":13,"./model/Error":14,"./model/KeyWords":15,"./model/LoginInfo":16,"./model/LoginRes":17,"./model/OkRes":18,"./model/Post":19,"./model/Thread":20,"./model/Threads":21,"./model/UserKeywordsPOSTReq":22}],13:[function(require,module,exports){
+},{"./ApiClient":9,"./api/PublicApi":10,"./api/UserApi":11,"./model/AddKeywordReq":13,"./model/Error":14,"./model/LoginInfo":15,"./model/LoginRes":16,"./model/OkRes":17,"./model/Post":18,"./model/Thread":19,"./model/Threads":20,"./model/UserKeywordsGETRes":21,"./model/UserKeywordsPOSTReq":22}],13:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -4905,84 +4958,6 @@ module.exports = function(arr, fn, initial){
     if (!root.SharioRestApi) {
       root.SharioRestApi = {};
     }
-    root.SharioRestApi.KeyWords = factory(root.SharioRestApi.ApiClient);
-  }
-}(this, function(ApiClient) {
-  'use strict';
-
-
-
-
-  /**
-   * The KeyWords model module.
-   * @module model/KeyWords
-   * @version 0.0.0
-   */
-
-  /**
-   * Constructs a new <code>KeyWords</code>.
-   * @alias module:model/KeyWords
-   * @class
-   * @extends Array
-   */
-  var exports = function() {
-    var _this = this;
-    _this = new Array();
-    Object.setPrototypeOf(_this, exports);
-
-    return _this;
-  };
-
-  /**
-   * Constructs a <code>KeyWords</code> from a plain JavaScript object, optionally creating a new instance.
-   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-   * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/KeyWords} obj Optional instance to populate.
-   * @return {module:model/KeyWords} The populated <code>KeyWords</code> instance.
-   */
-  exports.constructFromObject = function(data, obj) {
-    if (data) {
-      obj = obj || new exports();
-      ApiClient.constructFromObject(data, obj, String);
-
-    }
-    return obj;
-  }
-
-
-
-
-  return exports;
-}));
-
-
-
-},{"../ApiClient":9}],16:[function(require,module,exports){
-/**
- * Shario REST API
- * API for share-thread-filter REST Server
- *
- * OpenAPI spec version: 0.0.0
- * 
- *
- * NOTE: This class is auto generated by the swagger code generator program.
- * https://github.com/swagger-api/swagger-codegen.git
- * Do not edit the class manually.
- *
- */
-
-(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(['ApiClient'], factory);
-  } else if (typeof module === 'object' && module.exports) {
-    // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'));
-  } else {
-    // Browser globals (root is window)
-    if (!root.SharioRestApi) {
-      root.SharioRestApi = {};
-    }
     root.SharioRestApi.LoginInfo = factory(root.SharioRestApi.ApiClient);
   }
 }(this, function(ApiClient) {
@@ -5046,7 +5021,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9}],17:[function(require,module,exports){
+},{"../ApiClient":9}],16:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5135,7 +5110,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9}],18:[function(require,module,exports){
+},{"../ApiClient":9}],17:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5216,7 +5191,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9}],19:[function(require,module,exports){
+},{"../ApiClient":9}],18:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5337,7 +5312,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9}],20:[function(require,module,exports){
+},{"../ApiClient":9}],19:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5458,7 +5433,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9,"./Post":19}],21:[function(require,module,exports){
+},{"../ApiClient":9,"./Post":18}],20:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5536,7 +5511,7 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9,"./Thread":20}],22:[function(require,module,exports){
+},{"../ApiClient":9,"./Thread":19}],21:[function(require,module,exports){
 /**
  * Shario REST API
  * API for share-thread-filter REST Server
@@ -5553,18 +5528,107 @@ module.exports = function(arr, fn, initial){
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/KeyWords'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./KeyWords'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.SharioRestApi) {
       root.SharioRestApi = {};
     }
-    root.SharioRestApi.UserKeywordsPOSTReq = factory(root.SharioRestApi.ApiClient, root.SharioRestApi.KeyWords);
+    root.SharioRestApi.UserKeywordsGETRes = factory(root.SharioRestApi.ApiClient);
   }
-}(this, function(ApiClient, KeyWords) {
+}(this, function(ApiClient) {
+  'use strict';
+
+
+
+
+  /**
+   * The UserKeywordsGETRes model module.
+   * @module model/UserKeywordsGETRes
+   * @version 0.0.0
+   */
+
+  /**
+   * Constructs a new <code>UserKeywordsGETRes</code>.
+   * @alias module:model/UserKeywordsGETRes
+   * @class
+   */
+  var exports = function() {
+    var _this = this;
+
+
+
+  };
+
+  /**
+   * Constructs a <code>UserKeywordsGETRes</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/UserKeywordsGETRes} obj Optional instance to populate.
+   * @return {module:model/UserKeywordsGETRes} The populated <code>UserKeywordsGETRes</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) {
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('result')) {
+        obj['result'] = ApiClient.convertToType(data['result'], 'String');
+      }
+      if (data.hasOwnProperty('keyWords')) {
+        obj['keyWords'] = ApiClient.convertToType(data['keyWords'], ['String']);
+      }
+    }
+    return obj;
+  }
+
+  /**
+   * @member {String} result
+   */
+  exports.prototype['result'] = undefined;
+  /**
+   * @member {Array.<String>} keyWords
+   */
+  exports.prototype['keyWords'] = undefined;
+
+
+
+  return exports;
+}));
+
+
+
+},{"../ApiClient":9}],22:[function(require,module,exports){
+/**
+ * Shario REST API
+ * API for share-thread-filter REST Server
+ *
+ * OpenAPI spec version: 0.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by the swagger code generator program.
+ * https://github.com/swagger-api/swagger-codegen.git
+ * Do not edit the class manually.
+ *
+ */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.SharioRestApi) {
+      root.SharioRestApi = {};
+    }
+    root.SharioRestApi.UserKeywordsPOSTReq = factory(root.SharioRestApi.ApiClient);
+  }
+}(this, function(ApiClient) {
   'use strict';
 
 
@@ -5602,8 +5666,8 @@ module.exports = function(arr, fn, initial){
       if (data.hasOwnProperty('token')) {
         obj['token'] = ApiClient.convertToType(data['token'], 'String');
       }
-      if (data.hasOwnProperty('keywords')) {
-        obj['keywords'] = KeyWords.constructFromObject(data['keywords']);
+      if (data.hasOwnProperty('keyWords')) {
+        obj['keyWords'] = ApiClient.convertToType(data['keyWords'], ['String']);
       }
     }
     return obj;
@@ -5614,9 +5678,9 @@ module.exports = function(arr, fn, initial){
    */
   exports.prototype['token'] = undefined;
   /**
-   * @member {module:model/KeyWords} keywords
+   * @member {Array.<String>} keyWords
    */
-  exports.prototype['keywords'] = undefined;
+  exports.prototype['keyWords'] = undefined;
 
 
 
@@ -5625,4 +5689,4 @@ module.exports = function(arr, fn, initial){
 
 
 
-},{"../ApiClient":9,"./KeyWords":15}]},{},[5]);
+},{"../ApiClient":9}]},{},[5]);

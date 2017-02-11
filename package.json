@@ -35,7 +35,7 @@
     "https": "^1.0.0",
     "jsonfile": "^2.3.1",
     "multer": "^1.2.0",
-    "shario_rest_api": "^0.0.6",
+    "shario_rest_api": "^0.0.7",
     "uniq": "^1.0.1"
   }
 }

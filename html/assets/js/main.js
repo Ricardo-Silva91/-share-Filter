@@ -146,22 +146,72 @@ function populateMyModal() {
 
     var apiInstance = new SharioRestApi.UserApi();
 
-    var token = "token_example"; // String | The user's token
+    var token = getCookie("threadioManyCooks"); // String | The user's token
 
 
-    var callback = function(error, data, response) {
+    var callback = function (error, data, response) {
         if (error) {
             console.error(error);
         } else {
-            console.log('API called successfully. Returned data: ' + data);
+            //console.log('API called successfully. Returned data: ' + data);
+            //console.log(response.body.keywords);
+
+            $('#tags').html('');
+
+            data = response.body;
+
+            for (var i = 0; i < data.keywords.length; i++) {
+                $('#tags').append('<span>' + data.keywords[i] + '</span>');
+            }
+            $('#tags').append('<input style="color: #000;" type="text" value="" placeholder="Add a tag" />');
+
+            makeFormAlive();
+
         }
     };
     apiInstance.userKeywordsGET(token, callback);
 }
 
+$("#editKeysForm").submit(function (event) {
+    //alert( "Handler for .submit() called." );
+    event.preventDefault();
 
-$(function () { // DOM ready
+    var spans = $('#tags > span');
+    var newKeyWords = [];
 
+    for (var i = 0; i < spans.length; i++) {
+        newKeyWords.push(spans[i].innerText);
+    }
+    var uniqueNewKeys = [];
+    $.each(newKeyWords, function (i, el) {
+        if ($.inArray(el, uniqueNewKeys) === -1) uniqueNewKeys.push(el);
+    });
+
+    var SharioRestApi = require('shario_rest_api');
+
+    var apiInstance = new SharioRestApi.UserApi();
+
+    var opts = {
+        'body': //new SharioRestApi.UserKeywordsPOSTReq() // UserKeywordsPOSTReq | request.
+            {
+                token: getCookie('threadioManyCooks'),
+                keywords: uniqueNewKeys
+            }
+    };
+
+    var callback = function (error, data, response) {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+            window.location.reload();
+        }
+    };
+    apiInstance.userKeywordsPOST(opts, callback);
+
+});
+
+function makeFormAlive() {
     // ::: TAGS BOX
 
     $("#tags input").on({
@@ -179,6 +229,9 @@ $(function () { // DOM ready
         /*if(confirm("Remove "+ $(this).text() +"?"))*/
         $(this).remove();
     });
+}
+
+$(function () { // DOM ready
 
 
 });
