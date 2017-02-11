@@ -1930,9 +1930,9 @@ var callback = function (error, data, response) {
             window.location.href = "login.html";
         }
         else {
-            var theElement, linkCode;
+            var theElement, linkCode, dropElement;
             data = response.body;
-            for (var i = 0; i < data.length; i++) {
+            for (var i = data.length - 1; i >= 0; i--) {
 
                 linkCode = '0' + data[i].no.toString().substring(0, 3) + '/' + data[i].no.toString().substring(3, 5) + '/';
 
@@ -1950,18 +1950,10 @@ var callback = function (error, data, response) {
                     '</div>';
 
 
-                /*'<div align="middle" class="services-wrapper item text-center ' + (i == 0 ? 'active' : '') + '">' +
-                 '<h3>' +
-                 data[i]['sub'] +
-                 '</h3>' +
-                 '<a title="' + data[i].no + '" class="threadPic">' +
-                 //'<img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
-                 (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
-                 '</a>' +
-                 '</div>'*/
-                ;
-
                 $('.carousel-inner').append(theElement);
+
+                dropElement = '<option value="' + data[i].no + '">' + data[i]['sub'] + ' - ' + data[i].now + '</option>'
+                $('#threadsDropDown').append(dropElement);
 
             }
             $(".threadPic").click(function () {
@@ -1972,6 +1964,14 @@ var callback = function (error, data, response) {
             $("#myModal").on('shown.bs.modal', function () {
                 populateMyModal();
                 console.log('jogos');
+            });
+            $('#threadsDropDown').change(function () {
+                if (this.value != "000") {
+                    console.log(this.value);
+                    threadId_global = this.value;
+                    filterThreadAndShow(this.value);
+
+                }
             });
         }
     }
@@ -2129,7 +2129,7 @@ function makeFormAlive() {
 
     $("#tags input").on({
         focusout: function () {
-            var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig, ''); // allowed characters
+            var txt = this.value.replace(/[^a-z0-9\+\-\.\#\ ]/ig, ''); // allowed characters
             if (txt) $("<span/>", {text: txt.toLowerCase(), insertBefore: this});
             this.value = "";
         },
