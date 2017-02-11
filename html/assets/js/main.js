@@ -21,14 +21,14 @@ var callback = function (error, data, response) {
             data = response.body;
             for (var i = 0; i < data.length; i++) {
 
-                linkCode = '0' + data[i].no.toString().substring(0,3) + '/' + data[i].no.toString().substring(3,5) + '/';
+                linkCode = '0' + data[i].no.toString().substring(0, 3) + '/' + data[i].no.toString().substring(3, 5) + '/';
 
 
                 theElement =
                     '<div class="item col-lg-4 ' + (i == 0 ? 'active' : '') + '">' +
                     '<div class="services-wrapper" style="word-wrap: break-word; max-height: 100%">' +
                     '<a title="' + data[i].no + '" class="threadPic">' +
-                    (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
+                    (data[i].tim == undefined ? '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
                     '</a>' +
                     '<p>' +
                     data[i]['sub'] +
@@ -37,16 +37,16 @@ var callback = function (error, data, response) {
                     '</div>';
 
 
-
-                    /*'<div align="middle" class="services-wrapper item text-center ' + (i == 0 ? 'active' : '') + '">' +
-                    '<h3>' +
-                    data[i]['sub'] +
-                    '</h3>' +
-                    '<a title="' + data[i].no + '" class="threadPic">' +
-                    //'<img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
-                    (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
-                    '</a>' +
-                    '</div>'*/;
+                /*'<div align="middle" class="services-wrapper item text-center ' + (i == 0 ? 'active' : '') + '">' +
+                 '<h3>' +
+                 data[i]['sub'] +
+                 '</h3>' +
+                 '<a title="' + data[i].no + '" class="threadPic">' +
+                 //'<img align="middle" style="margin-left:13%;width: 300px" src="https://i.4cdn.org/mu/' + data[i].tim + data[i].ext + '">' +
+                 (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
+                 '</a>' +
+                 '</div>'*/
+                ;
 
                 $('.carousel-inner').append(theElement);
 
@@ -56,8 +56,9 @@ var callback = function (error, data, response) {
                 threadId_global = this.title;
                 filterThreadAndShow(this.title);
             });
-            $( "#myModal" ).on('shown.bs.modal', function(){
-
+            $("#myModal").on('shown.bs.modal', function () {
+                populateMyModal();
+                console.log('jogos');
             });
         }
     }
@@ -102,7 +103,7 @@ function filterThreadAndShow(id) {
 
                 theElement =
                     '<div class="col-lg-4 text-center">' +
-                        '<h1>Sorry, no posts</h1>' +
+                    '<h1>Sorry, no posts</h1>' +
                     '</div>';
 
                 $($('.posts > .row')[$('.posts > .row').length - 1]).append(theElement);
@@ -114,12 +115,12 @@ function filterThreadAndShow(id) {
                         $('.posts').append('<div class="row"></div>');
                     }
 
-                    linkCode = '0' + threadId_global.toString().substring(0,3) + '/' + threadId_global.toString().substring(3,5) + '/';
+                    linkCode = '0' + threadId_global.toString().substring(0, 3) + '/' + threadId_global.toString().substring(3, 5) + '/';
 
                     theElement =
                         '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
                         '<div class="services-wrapper" style="word-wrap: break-word">' +
-                        (data[i].tim == undefined ?  '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
+                        (data[i].tim == undefined ? '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
                         '<p>' +
                         urlify(strip(data[i].com)).replace(/>/g, '<p></p>') +
                         '</p>' +
@@ -141,30 +142,43 @@ function filterThreadAndShow(id) {
 }
 function populateMyModal() {
 
-    
+    var SharioRestApi = require('shario_rest_api');
 
+    var apiInstance = new SharioRestApi.UserApi();
+
+    var token = "token_example"; // String | The user's token
+
+
+    var callback = function(error, data, response) {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log('API called successfully. Returned data: ' + data);
+        }
+    };
+    apiInstance.userKeywordsGET(token, callback);
 }
 
 
-$(function(){ // DOM ready
+$(function () { // DOM ready
 
     // ::: TAGS BOX
 
     $("#tags input").on({
-        focusout : function() {
-            var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig,''); // allowed characters
-            if(txt) $("<span/>", {text:txt.toLowerCase(), insertBefore:this});
+        focusout: function () {
+            var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig, ''); // allowed characters
+            if (txt) $("<span/>", {text: txt.toLowerCase(), insertBefore: this});
             this.value = "";
         },
-        keyup : function(ev) {
+        keyup: function (ev) {
             // if: comma|enter (delimit more keyCodes with | pipe)
-            if(/(188|13)/.test(ev.which)) $(this).focusout();
+            if (/(188|13)/.test(ev.which)) $(this).focusout();
         }
     });
-    $('#tags').on('click', 'span', function() {
-        /*if(confirm("Remove "+ $(this).text() +"?"))*/ $(this).remove();
+    $('#tags').on('click', 'span', function () {
+        /*if(confirm("Remove "+ $(this).text() +"?"))*/
+        $(this).remove();
     });
-
 
 
 });
