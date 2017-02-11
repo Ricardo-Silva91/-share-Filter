@@ -25,7 +25,7 @@ var callback = function (error, data, response) {
 
 
                 theElement =
-                    '<div class="item col-lg-4 ' + (i == 0 ? 'active' : '') + '">' +
+                    '<div class="item col-lg-12 center ' + (i == data.length-1 ? 'active' : '') + '">' +
                     '<div class="services-wrapper" style="word-wrap: break-word; max-height: 100%">' +
                     '<a title="' + data[i].no + '" class="threadPic">' +
                     (data[i].tim == undefined ? '<img style="max-width: 100%" src="/assets/img/team/404.jpg">' : '<img style="max-width: 100%" src="https://archive.rebeccablacktech.com/boards/mu/img/' + linkCode + data[i].tim + data[i].ext + '">') +
@@ -102,7 +102,7 @@ function filterThreadAndShow(id) {
                 $('.posts').append('<div class="row"></div>');
 
                 theElement =
-                    '<div class="col-lg-4 text-center">' +
+                    '<div class="col-lg-12 text-center">' +
                     '<h1>Sorry, no posts</h1>' +
                     '</div>';
 
